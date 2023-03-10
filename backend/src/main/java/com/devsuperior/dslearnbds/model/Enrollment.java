@@ -2,11 +2,10 @@ package com.devsuperior.dslearnbds.model;
 
 import com.devsuperior.dslearnbds.model.pk.EnrollmentPK;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_enrollment")
@@ -22,6 +21,9 @@ public class Enrollment {
     private Instant refundMoment;
     private boolean available;
     private boolean onlyUpdate;
+
+    @ManyToMany(mappedBy = "enrollmentsDone")
+    private Set<Lesson> lessonsDone = new HashSet<>();
 
     public Enrollment() {
     }
@@ -81,5 +83,9 @@ public class Enrollment {
 
     public void setOnlyUpdate(boolean onlyUpdate) {
         this.onlyUpdate = onlyUpdate;
+    }
+
+    public Set<Lesson> getLessonsDone() {
+        return lessonsDone;
     }
 }
