@@ -1,7 +1,9 @@
 package com.devsuperior.dslearnbds.controllers.handlers;
 
 import com.devsuperior.dslearnbds.services.exceptions.DatabaseException;
+import com.devsuperior.dslearnbds.services.exceptions.ForbiddenException;
 import com.devsuperior.dslearnbds.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.dslearnbds.services.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -36,6 +38,20 @@ public class ControllerExceptionHandler {
         for (FieldError f : e.getBindingResult().getFieldErrors()) {
             err.addError(f.getField(), f.getDefaultMessage());
         }
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<OAuthCustomError> forbidden(ForbiddenException e) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        OAuthCustomError err = new OAuthCustomError("Proibido", e.getMessage());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<OAuthCustomError> unauthorized(UnauthorizedException e) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        OAuthCustomError err = new OAuthCustomError("Acesso não autorizado", e.getMessage());
         return ResponseEntity.status(status).body(err);
     }
 }

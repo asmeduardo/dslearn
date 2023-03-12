@@ -2,11 +2,11 @@ package com.devsuperior.dslearnbds.services.exceptions;
 
 import java.io.Serial;
 
-public class DatabaseException extends RuntimeException {
+public class UnauthorizedException extends RuntimeException {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
-	public DatabaseException(String msg) {
+	public UnauthorizedException(String msg) {
 		super(msg);
 	}
 }
